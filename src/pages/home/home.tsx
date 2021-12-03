@@ -73,6 +73,14 @@ export default function Home() {
     getMovies();
   }, [activeFilter, activeSort, search, getMovies]);
 
+  const resetOffset = () => {
+    setOffset(0);
+  };
+
+  useEffect(() => {
+    resetOffset();
+  }, [limit, activeFilter]);
+
   return (
     <>
       <Header

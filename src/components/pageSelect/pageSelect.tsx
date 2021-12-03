@@ -14,8 +14,8 @@ const PageBox = (props: PageBoxProps) => (
 
 export default function PageSelect(props: PageSelectProps) {
   const limitOptions = [10, 25, 50, 100];
-  const [isLimitOptionsVisible, setIsLimitOptionsVisible] = useState(true);
-  const getMaxPageNumber = () => Math.ceil(props.total / props.limit);
+  const [isLimitOptionsVisible, setIsLimitOptionsVisible] = useState(false);
+  const getMaxPageNumber = () => Math.floor(props.total / props.limit);
 
   const onLimitSelection = (limit: number) => {
     props.setLimit(limit);
@@ -62,8 +62,8 @@ export default function PageSelect(props: PageSelectProps) {
       )}
       {props.offset < getMaxPageNumber() && (
         <PageBox
-          displayedText={`${Math.ceil(props.total / props.limit) + 1}`}
-          pageNum={Math.ceil(props.total / props.limit)}
+          displayedText={`${getMaxPageNumber() + 1}`}
+          pageNum={getMaxPageNumber()}
           setOffset={props.setOffset}
         />
       )}
