@@ -16,23 +16,21 @@ export default function PageSelect(props: PageSelectProps) {
   const limitOptions = [10, 25, 50, 100];
   const [isLimitOptionsVisible, setIsLimitOptionsVisible] = useState(true);
   const getMaxPageNumber = () => Math.ceil(props.total / props.limit);
-  
-  const onLimitSelection = (limit : number) => {
-    props.setLimit(limit);
-    setIsLimitOptionsVisible(false)
-  }
 
+  const onLimitSelection = (limit: number) => {
+    props.setLimit(limit);
+    setIsLimitOptionsVisible(false);
+  };
 
   return (
     <div className={styles.pageSelect}>
-     
-        <PageBox
-          displayedText={"Previous"}
-          setOffset={props.setOffset}
-          pageNum={props.offset - 1}
-          isDisabled={props.offset === 0}
-        />
-      
+      <PageBox
+        displayedText={"Previous"}
+        setOffset={props.setOffset}
+        pageNum={props.offset - 1}
+        isDisabled={props.offset === 0}
+      />
+
       {props.offset > 0 && (
         <PageBox displayedText={`1`} setOffset={props.setOffset} pageNum={0} />
       )}
@@ -59,7 +57,9 @@ export default function PageSelect(props: PageSelectProps) {
           setOffset={props.setOffset}
         />
       )}
-      {props.offset < getMaxPageNumber() - 2 && <div className={styles.dots}>...</div>}
+      {props.offset < getMaxPageNumber() - 2 && (
+        <div className={styles.dots}>...</div>
+      )}
       {props.offset < getMaxPageNumber() && (
         <PageBox
           displayedText={`${Math.ceil(props.total / props.limit) + 1}`}
@@ -67,14 +67,13 @@ export default function PageSelect(props: PageSelectProps) {
           setOffset={props.setOffset}
         />
       )}
-      
-        <PageBox
-          displayedText={"Next"}
-          setOffset={props.setOffset}
-          pageNum={props.offset + 1}
-          isDisabled={props.offset === getMaxPageNumber()}
-        />
-      
+
+      <PageBox
+        displayedText={"Next"}
+        setOffset={props.setOffset}
+        pageNum={props.offset + 1}
+        isDisabled={props.offset === getMaxPageNumber()}
+      />
 
       <div className={styles.activeLimit}>
         {props.limit} items / page

@@ -46,11 +46,19 @@ export default function Home() {
     [search]
   );
 
-  const getLimitAndOffsetString = useCallback(() => `&limit=${limit}&offset=${offset}` , [limit, offset])
+  const getLimitAndOffsetString = useCallback(
+    () => `&limit=${limit}&offset=${offset}`,
+    [limit, offset]
+  );
 
   const createUrl = useCallback(() => {
     return `/movies?${getSortString()}${getLimitAndOffsetString()}${getSearchString()}${getFilterString()}`;
-  }, [getSortString, getSearchString, getFilterString, getLimitAndOffsetString]);
+  }, [
+    getSortString,
+    getSearchString,
+    getFilterString,
+    getLimitAndOffsetString,
+  ]);
 
   const getMovies = useCallback(() => {
     axios.get(createUrl()).then((result) => {
