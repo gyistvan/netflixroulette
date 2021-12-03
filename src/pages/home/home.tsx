@@ -79,7 +79,7 @@ export default function Home() {
 
   useEffect(() => {
     resetOffset();
-  }, [limit, activeFilter]);
+  }, [limit, activeFilter, search]);
 
   return (
     <>
