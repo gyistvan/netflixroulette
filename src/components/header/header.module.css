@@ -1,0 +1,39 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 640px;
+  width: 100%;
+  background-image: url("../../assets/img/headerbg.png");
+  background-size: 100% 100%;
+  position: relative;
+}
+.header:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000000;
+  z-index: -1;
+}
+
+.header div {
+  display: flex;
+  flex-direction: column;
+}
+
+.header h1 {
+  color: #ffffff;
+  font-family: "Montserrat";
+  font-weight: 300;
+  font-size: 40px;
+}
+
+.addBtnWrapper {
+  position: absolute;
+  top: 25px;
+  right: 50px;
+}

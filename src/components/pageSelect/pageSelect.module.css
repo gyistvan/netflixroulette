@@ -1,0 +1,72 @@
+.pageSelect {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  color: #ffffff;
+  align-items: baseline;
+  font-size: 20px;
+}
+
+.pageBox,
+.activeBox {
+  min-width: 40px;
+  padding: 10px;
+  height: 40px;
+  margin-right: 5px;
+  display: flex;
+  line-height: 20px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dots {
+  margin-right: 5px;
+}
+
+.pageBox {
+  background: #555555;
+  border: 1px solid #232323;
+  color: #ffffff;
+}
+
+.activeBox {
+  background: #f65261;
+  border: 1px solid #232323;
+}
+
+.activeLimit {
+  width: 200px;
+  color: #ffffff;
+  position: relative;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.activeLimit span {
+  color: #f65261;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.limitMenu {
+  position: absolute;
+  color: #ffffff;
+  background-color: #555555;
+  border: 1px solid #232323;
+  width: 100%;
+  z-index: 100;
+  right: 0;
+  top: 50px;
+}
+
+.limitMenu div {
+  padding: 10px;
+}
+
+.limitMenu div:hover {
+  cursor: pointer;
+  background-color: #f65261;
+}

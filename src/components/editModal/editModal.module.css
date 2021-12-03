@@ -1,0 +1,87 @@
+.editForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.formRow {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.formRow fieldset {
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
+
+.formRow fieldset:first-child {
+  flex: 5;
+}
+
+.formRow fieldset:last-child {
+  flex: 3;
+}
+
+label {
+  color: #f65261;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+input,
+.genreInput {
+  background-color: #323232;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 18px;
+  border: none;
+}
+
+.genreInput {
+  width: 100%;
+  position: relative;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.genreInput p {
+  margin: 0;
+}
+
+.genreInput p span:nth-child(odd) {
+  background-color: #f65261;
+  display: inline-block;
+  margin-right: 5px;
+  padding: 0px 3px;
+  color: #323232;
+}
+
+.genreSelectMenu {
+  position: absolute;
+  background-color: #323232;
+  top: 65px;
+  left: 0;
+  padding: 18px;
+  width: 100%;
+}
+
+.genreSelectMenu div {
+  padding: 10px;
+}
+
+.genreSelectMenu div:hover {
+  background-color: #f65261;
+  cursor: pointer;
+}
+
+.arrowDown {
+  color: #f65261;
+  display: inline-block;
+  width: auto;
+  text-align: right;
+  cursor: pointer;
+}

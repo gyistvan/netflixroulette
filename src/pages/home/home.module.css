@@ -1,0 +1,21 @@
+.filterAndSort {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 3px solid #333;
+}
+
+.movieCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+}
+
+.totalMoviesCount {
+  color: #ffffff;
+}
+
+.pageAndTotal {
+  display: flex;
+  justify-content: space-between;
+}
