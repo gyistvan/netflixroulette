@@ -24,10 +24,8 @@ export default function Home() {
   const [search, setSearch] = useState<string | undefined>();
   const [offset, setOffset] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
-
   const [movies, setMovies] = useState<Movie[]>([]);
   const [total, setTotal] = useState<number | undefined>();
-
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -45,7 +43,6 @@ export default function Home() {
     () => (search ? `&search=${search}&searchBy=title` : ""),
     [search]
   );
-
   const getLimitAndOffsetString = useCallback(
     () => `&limit=${limit}&offset=${offset}`,
     [limit, offset]

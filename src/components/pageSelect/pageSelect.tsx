@@ -30,11 +30,9 @@ export default function PageSelect(props: PageSelectProps) {
         pageNum={props.offset - 1}
         isDisabled={props.offset === 0}
       />
-
       {props.offset > 0 && (
         <PageBox displayedText={`1`} setOffset={props.setOffset} pageNum={0} />
       )}
-
       {props.offset > 2 && <div className={styles.dots}>...</div>}
       {props.offset > 1 && (
         <PageBox
@@ -43,7 +41,6 @@ export default function PageSelect(props: PageSelectProps) {
           pageNum={props.offset - 1}
         />
       )}
-
       <PageBox
         displayedText={`${props.offset + 1}`}
         pageNum={props.offset}
@@ -67,14 +64,12 @@ export default function PageSelect(props: PageSelectProps) {
           setOffset={props.setOffset}
         />
       )}
-
       <PageBox
         displayedText={"Next"}
         setOffset={props.setOffset}
         pageNum={props.offset + 1}
         isDisabled={props.offset === getMaxPageNumber()}
       />
-
       <div className={styles.activeLimit}>
         {props.limit} items / page
         <span onClick={() => setIsLimitOptionsVisible(!isLimitOptionsVisible)}>
