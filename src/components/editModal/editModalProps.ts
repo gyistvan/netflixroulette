@@ -1,5 +1,6 @@
 export interface EditModalProps {
-  setIsOpen: (bool: boolean) => void;
-  movieId?: number;
+  setIsEditModalOpen: (bool: boolean) => void;
   getMovies: () => void;
+  movieId?: number;
+  isEditModalOpen: boolean;
 }

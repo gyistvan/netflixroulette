@@ -1,8 +1,8 @@
+import { Modal } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { GENRES } from "../../App";
 import { Movie } from "../../interfaces/response/moviesResponse";
-import Modal from "../modal/modal";
 import styles from "./editModal.module.css";
 import { EditModalProps } from "./editModalProps";
 
@@ -28,16 +28,6 @@ export default function EditModal(props: EditModalProps) {
     }
   };
 
-  const saveMovie = () => {
-    axios.put("/movies", selectedMovie).then(() => {
-      closeModal();
-    });
-  };
-
-  const closeModal = () => {
-    props.setIsOpen(false);
-  };
-
   useEffect(() => {
     if (props.movieId) {
       axios.get(`/movies/${props.movieId}`).then((res) => {
@@ -45,14 +35,25 @@ export default function EditModal(props: EditModalProps) {
         setSelectedMovie(data);
       });
     }
-  }, []);
+  }, [props.movieId]);
+
+  const editMovie = () => {
+    axios.put("/movies", { ...selectedMovie }).then(() => {
+      props.setIsEditModalOpen(false);
+      props.getMovies();
+    });
+  };
 
   return (
     <Modal
-      setIsOpen={props.setIsOpen}
-      title="edit movie"
-      submit={saveMovie}
-      cancel={closeModal}
+      className="basicModal"
+      width="70%"
+      title="Edit movie"
+      visible={props.isEditModalOpen}
+      onCancel={() => props.setIsEditModalOpen(false)}
+      onOk={editMovie}
+      okText={"Save movie"}
+      cancelButtonProps={{ type: "ghost" }}
     >
       <>
         {selectedMovie && (

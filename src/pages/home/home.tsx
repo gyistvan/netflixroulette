@@ -13,6 +13,7 @@ import EditModal from "../../components/editModal/editModal";
 import AddModal from "../../components/addModal/addModal";
 import DeleteModal from "../../components/deleteModal/deleteModal";
 import PageSelect from "../../components/pageSelect/pageSelect";
+import { Modal } from "antd";
 
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState("All");
@@ -78,6 +79,10 @@ export default function Home() {
     resetOffset();
   }, [limit, activeFilter, search]);
 
+  const deleteMovie = () => {
+    axios.delete(`/moview/${selectedMovieId}`);
+  };
+
   return (
     <>
       <Header
@@ -119,23 +124,23 @@ export default function Home() {
           />
         ))}
       </div>
-      {isEditModalOpen && (
-        <EditModal
-          setIsOpen={setIsEditModalOpen}
-          movieId={selectedMovieId}
-          getMovies={getMovies}
-        />
-      )}
-      {isAddModalOpen && (
-        <AddModal setIsOpen={setIsAddModalOpen} getMovies={getMovies} />
-      )}
-      {isDeleteModalOpen && (
-        <DeleteModal
-          setIsOpen={setIsDeleteModalOpen}
-          movieId={selectedMovieId}
-          getMovies={getMovies}
-        />
-      )}
+      <EditModal
+        movieId={selectedMovieId}
+        isEditModalOpen={isEditModalOpen}
+        setIsEditModalOpen={setIsEditModalOpen}
+        getMovies={getMovies}
+      />
+      <AddModal
+        isOpen={isAddModalOpen}
+        setIsOpen={setIsAddModalOpen}
+        getMovies={getMovies}
+      />
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        setIsOpen={setIsDeleteModalOpen}
+        movieId={selectedMovieId}
+        getMovies={getMovies}
+      />
     </>
   );
 }

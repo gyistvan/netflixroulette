@@ -7,6 +7,7 @@
 .formRow {
   display: flex;
   flex-direction: row;
+  gap: 40px;
   width: 100%;
 }
 
@@ -17,11 +18,11 @@
 }
 
 .formRow fieldset:first-child {
-  flex: 5;
+  flex: 6;
 }
 
 .formRow fieldset:last-child {
-  flex: 3;
+  flex: 4;
 }
 
 label {

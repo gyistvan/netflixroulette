@@ -1,4 +1,4 @@
-import Button from "../button/button";
+import { Button } from "antd";
 import Logo from "../logo/logo";
 import Search from "../search/search";
 import styles from "./header.module.css";
@@ -10,19 +10,8 @@ export default function Header(props: HeaderProps) {
       <div>
         <Logo />
         <div className={styles.addBtnWrapper}>
-          <Button
-            onClick={() => props.setIsAddModalOpen(true)}
-            styles={{
-              background: "#60606068",
-              border: "none",
-              color: "#F65261",
-              fontFamily: "Montserrat",
-              fontWeight: 300,
-              fontSize: "20px",
-              padding: "11px 18px",
-            }}
-          >
-            <>+ ADD MOVIE</>
+          <Button type="ghost" onClick={() => props.setIsAddModalOpen(true)}>
+            + ADD MOVIE
           </Button>
         </div>
       </div>

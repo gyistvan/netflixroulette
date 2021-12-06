@@ -1,15 +1,16 @@
 import { PageBoxProps, PageSelectProps } from "./pageSelectProps";
 import styles from "./pageSelect.module.css";
 import { useState } from "react";
+import { Button } from "antd";
 
 const PageBox = (props: PageBoxProps) => (
-  <button
-    className={props.active ? styles.activeBox : styles.pageBox}
+  <Button
     onClick={() => props.setOffset(props.pageNum)}
     disabled={props.isDisabled}
+    type={props.active ? "primary" : "ghost"}
   >
     {props.displayedText}
-  </button>
+  </Button>
 );
 
 export default function PageSelect(props: PageSelectProps) {

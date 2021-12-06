@@ -2,9 +2,9 @@ import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { GENRES } from "../../App";
 import { Movie } from "../../interfaces/request/movie";
-import Modal from "../modal/modal";
 import styles from "./addModal.module.css";
 import { AddModalProps } from "./addModalProps";
+import { Modal } from "antd";
 
 export default function AddModal(props: AddModalProps) {
   const movie = {
@@ -48,10 +48,6 @@ export default function AddModal(props: AddModalProps) {
     [newMovie]
   );
 
-  const switchGenreSelectMenuState = () => {
-    setIsGenreSelectMenuOpen(!isGenreSelectMenuOpen);
-  };
-
   const areInputsFilled = useCallback(() => {
     if (
       areGenresValid() &&
@@ -94,9 +90,14 @@ export default function AddModal(props: AddModalProps) {
     }
   };
 
+  const resetMovieState = () => setNewMovie({...movie})
+
+
   const saveMovie = () => {
     axios.post("/movies", newMovie).then(() => {
       closeModal();
+      props.getMovies();
+      resetMovieState()
     });
   };
 
@@ -110,154 +111,152 @@ export default function AddModal(props: AddModalProps) {
 
   return (
     <Modal
-      setIsOpen={props.setIsOpen}
-      title="add movie"
-      submit={saveMovie}
-      cancel={closeModal}
-      isSubmitDisabled={isSubmitDisabled}
+      title="Add movie"
+      visible={props.isOpen}
+      className="basicModal"
+      width="70%"
+      onCancel={closeModal}
+      onOk={saveMovie}
+      okButtonProps={{disabled: isSubmitDisabled}}
     >
-      <>
-        {newMovie && (
-          <form className={styles.editForm}>
-            <div className={styles.formRow}>
-              <fieldset>
-                <label htmlFor="title">Title</label>
-                <input
-                  id="title"
-                  name="title"
-                  placeholder="Add title"
-                  value={newMovie.title ?? ""}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setMovie("title", e.target.value)
-                  }
-                />
-              </fieldset>
-              <fieldset>
-                <label htmlFor="releaseDate">Release date</label>
-                <input
-                  type="date"
-                  placeholder="Select Date"
-                  name="releaseDate"
-                  id="releaseDate"
-                  value={newMovie.release_date ?? ""}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setMovie("release_date", e.target.value)
-                  }
-                />
-              </fieldset>
-            </div>
-            <div className={styles.formRow}>
-              <fieldset>
-                <label htmlFor="movieUrl">Movie url</label>
-                <input
-                  id="movieUrl"
-                  name="movieUrl"
-                  placeholder="https://"
-                  value={newMovie.poster_path ?? ""}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setMovie("poster_path", e.target.value)
-                  }
-                />
-              </fieldset>
-              <fieldset>
-                <label htmlFor="rating">Rating</label>
-                <input
-                  type="text"
-                  name="rating"
-                  id="rating"
-                  placeholder="7.8"
-                  value={newMovie.vote_average ?? ""}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setMovie("vote_average", parseInt(e.target.value))
-                  }
-                />
-              </fieldset>
-            </div>
-            <div className={styles.formRow}>
-              <fieldset>
-                <label htmlFor="genre">Genre</label>
-                <div className={styles.genreInput}>
-                  <p>
-                    {newMovie.genres.length > 0 ? (
-                      newMovie.genres.map((genre: string, index: number) => (
-                        <React.Fragment key={genre}>
-                          <span
-                            onClick={() =>
-                              setMovie(
-                                "genres",
-                                newMovie.genres.filter((g) => g !== genre)
-                              )
-                            }
-                          >
-                            X
-                          </span>
-                          <span>
-                            {genre}
-                            {index + 1 < newMovie.genres.length && ", "}
-                          </span>
-                        </React.Fragment>
-                      ))
-                    ) : (
-                      <span className={styles.placeholder}>Select Genre</span>
-                    )}
-                  </p>
-                  {isGenreSelectMenuOpen && (
-                    <div className={styles.genreSelectMenu}>
-                      {GENRES.filter(
-                        (genre) =>
-                          !newMovie.genres.includes(genre) && genre !== "All"
-                      ).map((genre) => (
-                        <div
-                          key={genre}
+      {newMovie && (
+        <form className={styles.editForm}>
+          <div className={styles.formRow}>
+            <fieldset>
+              <label htmlFor="title">Title</label>
+              <input
+                id="title"
+                name="title"
+                placeholder="Add title"
+                value={newMovie.title ?? ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setMovie("title", e.target.value)
+                }
+              />
+            </fieldset>
+            <fieldset>
+              <label htmlFor="releaseDate">Release date</label>
+              <input
+                type="date"
+                placeholder="Select Date"
+                name="releaseDate"
+                id="releaseDate"
+                value={newMovie.release_date ?? ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setMovie("release_date", e.target.value)
+                }
+              />
+            </fieldset>
+          </div>
+          <div className={styles.formRow}>
+            <fieldset>
+              <label htmlFor="movieUrl">Movie url</label>
+              <input
+                id="movieUrl"
+                name="movieUrl"
+                placeholder="https://"
+                value={newMovie.poster_path ?? ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setMovie("poster_path", e.target.value)
+                }
+              />
+            </fieldset>
+            <fieldset>
+              <label htmlFor="rating">Rating</label>
+              <input
+                type="text"
+                name="rating"
+                id="rating"
+                placeholder="7.8"
+                value={newMovie.vote_average ?? ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setMovie("vote_average", parseInt(e.target.value))
+                }
+              />
+            </fieldset>
+          </div>
+          <div className={styles.formRow}>
+            <fieldset>
+              <label htmlFor="genre">Genre</label>
+              <div className={styles.genreInput}>
+                <p>
+                  {newMovie.genres.length > 0 ? (
+                    newMovie.genres.map((genre: string, index: number) => (
+                      <React.Fragment key={genre}>
+                        <span
                           onClick={() =>
-                            setMovie("genres", [...newMovie.genres, genre])
+                            setMovie(
+                              "genres",
+                              newMovie.genres.filter((g) => g !== genre)
+                            )
                           }
                         >
+                          X
+                        </span>
+                        <span>
                           {genre}
-                        </div>
-                      ))}
-                    </div>
+                          {index + 1 < newMovie.genres.length && ", "}
+                        </span>
+                      </React.Fragment>
+                    ))
+                  ) : (
+                    <span className={styles.placeholder}>Select Genre</span>
                   )}
-                  <span
-                    className={styles.arrowDown}
-                    onClick={() =>
-                      setIsGenreSelectMenuOpen(!isGenreSelectMenuOpen)
-                    }
-                  >
-                    ▼
-                  </span>
-                </div>
-              </fieldset>
-              <fieldset>
-                <label htmlFor="runTime">Runtime</label>
-                <input
-                  type="text"
-                  name="runTime"
-                  id="runTime"
-                  placeholder="minutes"
-                  value={
-                    newMovie.runtime ? formatRunTime(newMovie.runtime) : ""
+                </p>
+                {isGenreSelectMenuOpen && (
+                  <div className={styles.genreSelectMenu}>
+                    {GENRES.filter(
+                      (genre) =>
+                        !newMovie.genres.includes(genre) && genre !== "All"
+                    ).map((genre) => (
+                      <div
+                        key={genre}
+                        onClick={() =>
+                          setMovie("genres", [...newMovie.genres, genre])
+                        }
+                      >
+                        {genre}
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <span
+                  className={styles.arrowDown}
+                  onClick={() =>
+                    setIsGenreSelectMenuOpen(!isGenreSelectMenuOpen)
                   }
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    returnNumberFromFormattedTime(e.target.value)
-                  }
-                />
-              </fieldset>
-            </div>
-            <div className={styles.formRow}>
-              <fieldset>
-                <label htmlFor="overview">Overview</label>
-                <textarea
-                  value={newMovie.overview ?? ""}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    setMovie("overview", e.target.value)
-                  }
-                ></textarea>
-              </fieldset>
-            </div>
-          </form>
-        )}
-      </>
+                >
+                  ▼
+                </span>
+              </div>
+            </fieldset>
+            <fieldset>
+              <label htmlFor="runTime">Runtime</label>
+              <input
+                type="text"
+                name="runTime"
+                id="runTime"
+                placeholder="minutes"
+                value={newMovie.runtime ? formatRunTime(newMovie.runtime) : ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  returnNumberFromFormattedTime(e.target.value)
+                }
+              />
+            </fieldset>
+          </div>
+          <div className={styles.formRow}>
+            <fieldset>
+              <label htmlFor="overview">Overview</label>
+              <textarea
+                value={newMovie.overview ?? ""}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setMovie("overview", e.target.value)
+                }
+              ></textarea>
+            </fieldset>
+          </div>
+        </form>
+      )}
     </Modal>
   );
 }

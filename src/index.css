@@ -1,3 +1,4 @@
+@import "~antd/dist/antd.css";
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap");
 
 * {
@@ -22,4 +23,63 @@ hr {
   background-color: #080707;
   border: none;
   height: 1px;
+}
+
+.basicModal .ant-modal-content .ant-modal-header {
+  border-bottom: none;
+}
+
+.basicModal .ant-modal-content .ant-modal-header,
+.basicModal .ant-modal-content .ant-modal-body,
+.basicModal .ant-modal-content .ant-modal-footer {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.basicModal .ant-modal-content .ant-modal-title {
+  text-transform: uppercase;
+  font-size: 40px;
+  line-height: 50px;
+  font-family: "Montserrat";
+  font-weight: 300;
+  color: #ffffff;
+}
+
+.basicModal .ant-modal-content .ant-modal-footer {
+  border-top: none;
+}
+
+.ant-btn {
+  color: #f65261;
+  border-color: #f65261;
+  text-transform: uppercase;
+  font-size: 20px;
+  height: auto;
+}
+
+.ant-btn:hover,
+.ant-btn:focus {
+  color: #fa3242;
+  border-color: #fa3242;
+}
+
+.ant-btn-primary {
+  border-color: #f65261;
+  background-color: #f65261;
+  color: #ffffff;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  border-color: #fa3242;
+  background-color: #fa3242;
+  color: #ffffff;
+}
+
+.ant-btn-text {
+  border: none;
+}
+
+.ant-btn-text:hover,
+.ant-btn-text:focus {
+  background-color: transparent;
 }

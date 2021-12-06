@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "../button/button";
+import { Button } from "antd";
 import styles from "./search.module.css";
 import { SearchProps } from "./searchProps";
 
@@ -25,17 +25,7 @@ export default function Search(props: SearchProps) {
           onChange={onValueChange}
           className={styles.input}
         />
-        <Button
-          styles={{
-            color: "#FFFFFF",
-            background: "#F65261",
-            fontFamily: "Montserrat",
-            fontWeight: 500,
-            fontSize: "20px",
-            padding: "18px 73px",
-          }}
-          onClick={onSearch}
-        >
+        <Button type="primary" onClick={onSearch}>
           <>Search</>
         </Button>
       </form>
