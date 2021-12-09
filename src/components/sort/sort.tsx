@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SortOption, SortProps } from "./sortProps";
+import { SortOption, SortProps } from "./sort-props";
 import styles from "./sort.module.css";
 
 export default function Sort(props: SortProps) {

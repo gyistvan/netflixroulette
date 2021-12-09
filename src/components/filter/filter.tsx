@@ -1,6 +1,6 @@
 import { GENRES } from "../../App";
 import styles from "./filter.module.css";
-import { FilterProps } from "./filterProps";
+import { FilterProps } from "./filter-props";
 
 export default function Filter(props: FilterProps) {
   return (

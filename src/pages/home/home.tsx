@@ -5,13 +5,13 @@ import Sort from "../../components/sort/sort";
 import {
   Movie,
   MoviesResponse,
-} from "../../interfaces/response/moviesResponse";
+} from "../../interfaces/response/movies-response";
 import styles from "./home.module.css";
 import Header from "../../components/header/header";
-import MovieCard from "../../components/movieCard/movieCard";
-import EditModal from "../../components/editModal/editModal";
-import AddModal from "../../components/addModal/addModal";
-import DeleteModal from "../../components/deleteModal/deleteModal";
+import MovieCard from "../../components/movie-card/movie-card";
+import EditModal from "../../components/edit-modal/edit-modal";
+import AddModal from "../../components/add-modal/add-modal";
+import DeleteModal from "../../components/delete-modal/delete-modal";
 import { Pagination } from "antd";
 
 export default function Home() {

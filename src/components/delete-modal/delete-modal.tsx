@@ -1,6 +1,6 @@
 import axios from "axios";
-import { DeleteModalProps } from "./deleteModalProps";
-import styles from "./deleteModal.module.css";
+import { DeleteModalProps } from "./delete-modal-props";
+import styles from "./delete-modal.module.css";
 import { Modal } from "antd";
 
 export default function DeleteModal(props: DeleteModalProps) {

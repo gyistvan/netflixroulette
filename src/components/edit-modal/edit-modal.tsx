@@ -2,9 +2,9 @@ import { Input, Modal, Select, DatePicker, Space } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { GENRES } from "../../App";
-import { Movie } from "../../interfaces/response/moviesResponse";
-import styles from "./editModal.module.css";
-import { EditModalProps } from "./editModalProps";
+import { Movie } from "../../interfaces/response/movies-response";
+import styles from "./edit-modal.module.css";
+import { EditModalProps } from "./edit-modal-props";
 
 export default function EditModal(props: EditModalProps) {
   const [selectedMovie, setSelectedMovie] = useState<Movie | undefined>();
@@ -112,13 +112,13 @@ export default function EditModal(props: EditModalProps) {
               <fieldset>
                 <label htmlFor="genre">Genre</label>
                 <Select
-                mode="multiple"
-                showArrow
-                size="large"
-                placeholder="genres"
-                defaultValue={selectedMovie.genres}
-                options={GENRES
-                    .map((genre) => ({value: genre}))}
+                  mode="multiple"
+                  showArrow
+                  size="large"
+                  placeholder="genres"
+                  defaultValue={selectedMovie.genres}
+                  options={GENRES
+                      .map((genre) => ({value: genre}))}
               />
               </fieldset>
               <fieldset>

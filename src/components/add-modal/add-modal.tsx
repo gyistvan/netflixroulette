@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { GENRES } from "../../App";
 import { Movie } from "../../interfaces/request/movie";
-import styles from "./addModal.module.css";
-import { AddModalProps } from "./addModalProps";
+import styles from "./add-modal.module.css";
+import { AddModalProps } from "./add-modal-props";
 import { Input, Modal, Select, DatePicker, Space } from "antd";
 
 export default function AddModal(props: AddModalProps) {

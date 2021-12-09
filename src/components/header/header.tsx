@@ -2,7 +2,7 @@ import { Button } from "antd";
 import Logo from "../logo/logo";
 import Search from "../search/search";
 import styles from "./header.module.css";
-import { HeaderProps } from "./headerProps";
+import { HeaderProps } from "./header-props";
 
 export default function Header(props: HeaderProps) {
   return (

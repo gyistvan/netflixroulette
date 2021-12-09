@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { MovieCardProps } from "./movieCardProps";
-import styles from "./movieCard.module.css";
+import { MovieCardProps } from "./movie-card-props";
+import styles from "./movie-card.module.css";
 import fallBackImg from "../../assets/img/fallback.png";
 import { Button } from "antd";
 

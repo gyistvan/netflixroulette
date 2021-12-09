@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "antd";
 import styles from "./search.module.css";
-import { SearchProps } from "./searchProps";
+import { SearchProps } from "./search-props";
 
 export default function Search(props: SearchProps) {
   const [searchStr, setSearchStr] = useState("");
