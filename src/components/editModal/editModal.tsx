@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Input, Modal, Select, DatePicker, Space } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { GENRES } from "../../App";
@@ -61,7 +61,7 @@ export default function EditModal(props: EditModalProps) {
             <div className={styles.formRow}>
               <fieldset>
                 <label htmlFor="title">Title</label>
-                <input
+                <Input
                   id="title"
                   name="title"
                   value={selectedMovie.title}
@@ -72,7 +72,7 @@ export default function EditModal(props: EditModalProps) {
               </fieldset>
               <fieldset>
                 <label htmlFor="releaseDate">Release date</label>
-                <input
+                <Input
                   type="date"
                   name="releaseDate"
                   id="releaseDate"
@@ -86,7 +86,7 @@ export default function EditModal(props: EditModalProps) {
             <div className={styles.formRow}>
               <fieldset>
                 <label htmlFor="movieUrl">Movie url</label>
-                <input
+                <Input
                   id="movieUrl"
                   name="movieUrl"
                   value={selectedMovie.poster_path}
@@ -97,7 +97,7 @@ export default function EditModal(props: EditModalProps) {
               </fieldset>
               <fieldset>
                 <label htmlFor="rating">Rating</label>
-                <input
+                <Input
                   type="text"
                   name="rating"
                   id="rating"
@@ -111,60 +111,19 @@ export default function EditModal(props: EditModalProps) {
             <div className={styles.formRow}>
               <fieldset>
                 <label htmlFor="genre">Genre</label>
-                <div className={styles.genreInput}>
-                  <p>
-                    {selectedMovie.genres.map(
-                      (genre: string, index: number) => (
-                        <React.Fragment key={genre}>
-                          <span
-                            onClick={() =>
-                              setMovie(
-                                "genres",
-                                selectedMovie.genres.filter((g) => g !== genre)
-                              )
-                            }
-                          >
-                            X
-                          </span>
-                          <span>
-                            {genre}
-                            {index + 1 < selectedMovie.genres.length && ", "}
-                          </span>
-                        </React.Fragment>
-                      )
-                    )}
-                  </p>
-                  {isGenreSelectMenuOpen && (
-                    <div className={styles.genreSelectMenu}>
-                      {GENRES.filter(
-                        (genre) =>
-                          !selectedMovie.genres.includes(genre) &&
-                          genre !== "All"
-                      ).map((genre) => (
-                        <div
-                          key={genre}
-                          onClick={() =>
-                            setMovie("genres", [...selectedMovie.genres, genre])
-                          }
-                        >
-                          {genre}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <span
-                    className={styles.arrowDown}
-                    onClick={() =>
-                      setIsGenreSelectMenuOpen(!isGenreSelectMenuOpen)
-                    }
-                  >
-                    ▼
-                  </span>
-                </div>
+                <Select
+                mode="multiple"
+                showArrow
+                size="large"
+                placeholder="genres"
+                defaultValue={selectedMovie.genres}
+                options={GENRES
+                    .map((genre) => ({value: genre}))}
+              />
               </fieldset>
               <fieldset>
                 <label htmlFor="runTime">Runtime</label>
-                <input
+                <Input
                   type="text"
                   name="runTime"
                   id="runTime"

@@ -12,8 +12,7 @@ import MovieCard from "../../components/movieCard/movieCard";
 import EditModal from "../../components/editModal/editModal";
 import AddModal from "../../components/addModal/addModal";
 import DeleteModal from "../../components/deleteModal/deleteModal";
-import PageSelect from "../../components/pageSelect/pageSelect";
-import { Modal } from "antd";
+import { Pagination } from "antd";
 
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState("All");
@@ -100,12 +99,13 @@ export default function Home() {
             <span>{total}&nbsp;</span>
             <span>movies found</span>
           </p>
-          <PageSelect
+          <Pagination 
+            showSizeChanger
             total={total}
-            limit={limit}
-            setLimit={setLimit}
-            offset={offset}
-            setOffset={setOffset}
+            defaultCurrent={0}
+            onShowSizeChange={setLimit}
+            current={offset}
+            onChange={setOffset}
           />
         </div>
       )}

@@ -4,9 +4,10 @@ import { GENRES } from "../../App";
 import { Movie } from "../../interfaces/request/movie";
 import styles from "./addModal.module.css";
 import { AddModalProps } from "./addModalProps";
-import { Modal } from "antd";
+import { Input, Modal, Select, DatePicker, Space } from "antd";
 
 export default function AddModal(props: AddModalProps) {
+  const { TextArea } = Input;
   const movie = {
     genres: [],
     tagline: "Here's to the fools who dream.",
@@ -118,40 +119,41 @@ export default function AddModal(props: AddModalProps) {
       onCancel={closeModal}
       onOk={saveMovie}
       okButtonProps={{disabled: isSubmitDisabled}}
+      cancelButtonProps={{type: "ghost"}}
     >
       {newMovie && (
         <form className={styles.editForm}>
           <div className={styles.formRow}>
             <fieldset>
               <label htmlFor="title">Title</label>
-              <input
-                id="title"
-                name="title"
+              <Input 
                 placeholder="Add title"
+                name="title"
+                id="title"
                 value={newMovie.title ?? ""}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setMovie("title", e.target.value)
                 }
               />
+              
             </fieldset>
             <fieldset>
               <label htmlFor="releaseDate">Release date</label>
-              <input
-                type="date"
-                placeholder="Select Date"
-                name="releaseDate"
-                id="releaseDate"
-                value={newMovie.release_date ?? ""}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setMovie("release_date", e.target.value)
-                }
-              />
+              <Space direction="vertical">
+                <DatePicker
+                    name="releaseDate"
+                    id="releaseDate"
+                    onChange={(e) =>
+                    setMovie("release_date", e?.toISOString() ?? "")
+                    }
+                />
+              </Space>
             </fieldset>
           </div>
           <div className={styles.formRow}>
             <fieldset>
               <label htmlFor="movieUrl">Movie url</label>
-              <input
+              <Input
                 id="movieUrl"
                 name="movieUrl"
                 placeholder="https://"
@@ -163,7 +165,7 @@ export default function AddModal(props: AddModalProps) {
             </fieldset>
             <fieldset>
               <label htmlFor="rating">Rating</label>
-              <input
+              <Input
                 type="text"
                 name="rating"
                 id="rating"
@@ -178,61 +180,18 @@ export default function AddModal(props: AddModalProps) {
           <div className={styles.formRow}>
             <fieldset>
               <label htmlFor="genre">Genre</label>
-              <div className={styles.genreInput}>
-                <p>
-                  {newMovie.genres.length > 0 ? (
-                    newMovie.genres.map((genre: string, index: number) => (
-                      <React.Fragment key={genre}>
-                        <span
-                          onClick={() =>
-                            setMovie(
-                              "genres",
-                              newMovie.genres.filter((g) => g !== genre)
-                            )
-                          }
-                        >
-                          X
-                        </span>
-                        <span>
-                          {genre}
-                          {index + 1 < newMovie.genres.length && ", "}
-                        </span>
-                      </React.Fragment>
-                    ))
-                  ) : (
-                    <span className={styles.placeholder}>Select Genre</span>
-                  )}
-                </p>
-                {isGenreSelectMenuOpen && (
-                  <div className={styles.genreSelectMenu}>
-                    {GENRES.filter(
-                      (genre) =>
-                        !newMovie.genres.includes(genre) && genre !== "All"
-                    ).map((genre) => (
-                      <div
-                        key={genre}
-                        onClick={() =>
-                          setMovie("genres", [...newMovie.genres, genre])
-                        }
-                      >
-                        {genre}
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <span
-                  className={styles.arrowDown}
-                  onClick={() =>
-                    setIsGenreSelectMenuOpen(!isGenreSelectMenuOpen)
-                  }
-                >
-                  ▼
-                </span>
-              </div>
+              <Select
+                mode="multiple"
+                showArrow
+                size="large"
+                placeholder="genres"
+                defaultValue={[]}
+                options={GENRES.map((genre) => ({value: genre}))}
+              />      
             </fieldset>
             <fieldset>
               <label htmlFor="runTime">Runtime</label>
-              <input
+              <Input
                 type="text"
                 name="runTime"
                 id="runTime"
@@ -247,12 +206,13 @@ export default function AddModal(props: AddModalProps) {
           <div className={styles.formRow}>
             <fieldset>
               <label htmlFor="overview">Overview</label>
-              <textarea
+              <TextArea
+                rows={4}
                 value={newMovie.overview ?? ""}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                   setMovie("overview", e.target.value)
                 }
-              ></textarea>
+              />
             </fieldset>
           </div>
         </form>
