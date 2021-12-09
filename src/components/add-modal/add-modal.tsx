@@ -1,11 +1,12 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { GENRES } from "../../App";
 import { Movie } from "../../interfaces/request/movie";
 import styles from "./add-modal.module.css";
 import { AddModalProps } from "./add-modal-props";
 import { Input, Modal, Select, DatePicker, Space } from "antd";
 import moment from "moment";
+import { StoreContext } from "../..";
 
 export default function AddModal(props: AddModalProps) {
   const { TextArea } = Input;
@@ -16,6 +17,8 @@ export default function AddModal(props: AddModalProps) {
     budget: 30000000,
     revenue: 445435700,
   };
+
+  const store = useContext(StoreContext);
 
   const [newMovie, setNewMovie] = useState<Movie>(movie);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
@@ -96,7 +99,7 @@ export default function AddModal(props: AddModalProps) {
   const saveMovie = () => {
     axios.post("/movies", newMovie).then(() => {
       closeModal();
-      props.getMovies();
+      store.updateMovies();
       resetMovieState();
     });
   };

@@ -2,6 +2,10 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import storeInstance from "./store/store";
+import React from "react";
+
+export const StoreContext = React.createContext(storeInstance);
 
 ReactDOM.render(<App />, document.getElementById("root"));
 

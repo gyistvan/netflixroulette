@@ -1,13 +1,15 @@
 import { Input, Modal, Select, DatePicker, Space } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { GENRES } from "../../App";
 import { Movie } from "../../interfaces/response/movies-response";
 import styles from "./edit-modal.module.css";
 import { EditModalProps } from "./edit-modal-props";
 import moment from "moment";
+import { StoreContext } from "../..";
 
 export default function EditModal(props: EditModalProps) {
+  const store = useContext(StoreContext);
   const [selectedMovie, setSelectedMovie] = useState<Movie | undefined>();
 
   const formatRunTime = (runTime: number) => {
@@ -40,7 +42,7 @@ export default function EditModal(props: EditModalProps) {
   const editMovie = () => {
     axios.put("/movies", { ...selectedMovie }).then(() => {
       props.setIsEditModalOpen(false);
-      props.getMovies();
+      store.updateMovies();
     });
   };
 

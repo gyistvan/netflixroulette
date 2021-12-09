@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Filter from "../../components/filter/filter";
 import Sort from "../../components/sort/sort";
@@ -13,6 +13,8 @@ import EditModal from "../../components/edit-modal/edit-modal";
 import AddModal from "../../components/add-modal/add-modal";
 import DeleteModal from "../../components/delete-modal/delete-modal";
 import { Pagination } from "antd";
+import { StoreContext } from "../..";
+import { useObserver } from "mobx-react-lite";
 
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState("All");
@@ -22,63 +24,18 @@ export default function Home() {
     query: "release_date",
   });
   const [search, setSearch] = useState<string | undefined>();
-  const [offset, setOffset] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(10);
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [total, setTotal] = useState<number | undefined>();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedMovieId, setSelectedMovieId] = useState<number | undefined>();
 
-  const getSortString = useCallback(
-    () => `sortBy=${activeSort.query}&sortOrder=${activeSort.order}`,
-    [activeSort]
-  );
-  const getFilterString = useCallback(
-    () => (activeFilter === "All" ? "" : `&filter=${activeFilter}`),
-    [activeFilter]
-  );
-  const getSearchString = useCallback(
-    () => (search ? `&search=${search}&searchBy=title` : ""),
-    [search]
-  );
-  const getLimitAndOffsetString = useCallback(
-    () => `&limit=${limit}&offset=${offset}`,
-    [limit, offset]
-  );
-
-  const createUrl = useCallback(() => {
-    return `/movies?${getSortString()}${getLimitAndOffsetString()}${getSearchString()}${getFilterString()}`;
-  }, [
-    getSortString,
-    getSearchString,
-    getFilterString,
-    getLimitAndOffsetString,
-  ]);
-
-  const getMovies = useCallback(() => {
-    axios.get(createUrl()).then((result) => {
-      const data: MoviesResponse = result.data;
-      const movies: Movie[] = data.data;
-      setMovies(movies);
-      setTotal(data.totalAmount);
-    });
-  }, [createUrl]);
+  const store = useContext(StoreContext);
 
   useEffect(() => {
-    getMovies();
-  }, [activeFilter, activeSort, search, getMovies]);
+    store.updateMovies();
+  }, []);
 
-  const resetOffset = () => {
-    setOffset(0);
-  };
-
-  useEffect(() => {
-    resetOffset();
-  }, [limit, activeFilter, search]);
-
-  return (
+  return useObserver(() => (
     <>
       <Header
         search={search}
@@ -89,24 +46,24 @@ export default function Home() {
         <Filter setActiveFilter={setActiveFilter} activeFilter={activeFilter} />
         <Sort activeSort={activeSort} setActiveSort={setActiveSort} />
       </div>
-      {total && (
+      {store.total && (
         <div className={styles.pageAndTotal}>
           <p className={styles.totalMoviesCount}>
-            <span>{total}&nbsp;</span>
+            <span>{store.total}&nbsp;</span>
             <span>movies found</span>
           </p>
           <Pagination
             showSizeChanger
-            total={total}
+            total={store.total}
             defaultCurrent={0}
-            onShowSizeChange={setLimit}
-            current={offset}
-            onChange={setOffset}
+            onShowSizeChange={store.updateLimit}
+            current={store.urlParams.offset}
+            onChange={store.updateOffset}
           />
         </div>
       )}
       <div className={styles.movieCards}>
-        {movies.map((movie: Movie) => (
+        {store.movies.map((movie: Movie) => (
           <MovieCard
             key={movie.id}
             imgUrl={movie.poster_path}
@@ -124,19 +81,13 @@ export default function Home() {
         movieId={selectedMovieId}
         isEditModalOpen={isEditModalOpen}
         setIsEditModalOpen={setIsEditModalOpen}
-        getMovies={getMovies}
       />
-      <AddModal
-        isOpen={isAddModalOpen}
-        setIsOpen={setIsAddModalOpen}
-        getMovies={getMovies}
-      />
+      <AddModal isOpen={isAddModalOpen} setIsOpen={setIsAddModalOpen} />
       <DeleteModal
         isOpen={isDeleteModalOpen}
         setIsOpen={setIsDeleteModalOpen}
         movieId={selectedMovieId}
-        getMovies={getMovies}
       />
     </>
-  );
+  ));
 }

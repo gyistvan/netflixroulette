@@ -2,13 +2,16 @@ import axios from "axios";
 import { DeleteModalProps } from "./delete-modal-props";
 import styles from "./delete-modal.module.css";
 import { Modal } from "antd";
+import { useContext } from "react";
+import { StoreContext } from "../..";
 
 export default function DeleteModal(props: DeleteModalProps) {
+  const store = useContext(StoreContext);
   const onDelete = () => {
     if (props.movieId) {
       axios.delete(`/movies/${props.movieId}`).then(() => {
         props.setIsOpen(false);
-        props.getMovies();
+        store.updateMovies();
       });
     }
   };
