@@ -78,10 +78,6 @@ export default function Home() {
     resetOffset();
   }, [limit, activeFilter, search]);
 
-  const deleteMovie = () => {
-    axios.delete(`/moview/${selectedMovieId}`);
-  };
-
   return (
     <>
       <Header
@@ -99,7 +95,7 @@ export default function Home() {
             <span>{total}&nbsp;</span>
             <span>movies found</span>
           </p>
-          <Pagination 
+          <Pagination
             showSizeChanger
             total={total}
             defaultCurrent={0}

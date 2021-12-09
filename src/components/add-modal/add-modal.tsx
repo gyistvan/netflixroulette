@@ -5,6 +5,7 @@ import { Movie } from "../../interfaces/request/movie";
 import styles from "./add-modal.module.css";
 import { AddModalProps } from "./add-modal-props";
 import { Input, Modal, Select, DatePicker, Space } from "antd";
+import moment from "moment";
 
 export default function AddModal(props: AddModalProps) {
   const { TextArea } = Input;
@@ -17,7 +18,6 @@ export default function AddModal(props: AddModalProps) {
   };
 
   const [newMovie, setNewMovie] = useState<Movie>(movie);
-  const [isGenreSelectMenuOpen, setIsGenreSelectMenuOpen] = useState(false);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
   const areGenresValid = useCallback(
@@ -91,14 +91,13 @@ export default function AddModal(props: AddModalProps) {
     }
   };
 
-  const resetMovieState = () => setNewMovie({...movie})
-
+  const resetMovieState = () => setNewMovie({ ...movie });
 
   const saveMovie = () => {
     axios.post("/movies", newMovie).then(() => {
       closeModal();
       props.getMovies();
-      resetMovieState()
+      resetMovieState();
     });
   };
 
@@ -118,15 +117,15 @@ export default function AddModal(props: AddModalProps) {
       width="70%"
       onCancel={closeModal}
       onOk={saveMovie}
-      okButtonProps={{disabled: isSubmitDisabled}}
-      cancelButtonProps={{type: "ghost"}}
+      okButtonProps={{ disabled: isSubmitDisabled }}
+      cancelButtonProps={{ type: "ghost" }}
     >
       {newMovie && (
         <form className={styles.editForm}>
           <div className={styles.formRow}>
             <fieldset>
               <label htmlFor="title">Title</label>
-              <Input 
+              <Input
                 placeholder="Add title"
                 name="title"
                 id="title"
@@ -135,17 +134,21 @@ export default function AddModal(props: AddModalProps) {
                   setMovie("title", e.target.value)
                 }
               />
-              
             </fieldset>
             <fieldset>
               <label htmlFor="releaseDate">Release date</label>
               <Space direction="vertical">
                 <DatePicker
-                    name="releaseDate"
-                    id="releaseDate"
-                    onChange={(e) =>
+                  name="releaseDate"
+                  id="releaseDate"
+                  value={
+                    newMovie.release_date
+                      ? moment(newMovie.release_date)
+                      : undefined
+                  }
+                  onChange={(e) =>
                     setMovie("release_date", e?.toISOString() ?? "")
-                    }
+                  }
                 />
               </Space>
             </fieldset>
@@ -186,8 +189,8 @@ export default function AddModal(props: AddModalProps) {
                 size="large"
                 placeholder="genres"
                 defaultValue={[]}
-                options={GENRES.map((genre) => ({value: genre}))}
-              />      
+                options={GENRES.map((genre) => ({ value: genre }))}
+              />
             </fieldset>
             <fieldset>
               <label htmlFor="runTime">Runtime</label>

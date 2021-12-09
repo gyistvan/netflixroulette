@@ -17,9 +17,9 @@ export const GENRES = [
 function App() {
   return (
     <BrowserRouter>
-        <Routes>
-          <Route index element={<Home />} />
-        </Routes>
+      <Routes>
+        <Route index element={<Home />} />
+      </Routes>
     </BrowserRouter>
   );
 }

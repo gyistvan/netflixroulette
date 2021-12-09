@@ -5,10 +5,10 @@ import { GENRES } from "../../App";
 import { Movie } from "../../interfaces/response/movies-response";
 import styles from "./edit-modal.module.css";
 import { EditModalProps } from "./edit-modal-props";
+import moment from "moment";
 
 export default function EditModal(props: EditModalProps) {
   const [selectedMovie, setSelectedMovie] = useState<Movie | undefined>();
-  const [isGenreSelectMenuOpen, setIsGenreSelectMenuOpen] = useState(false);
 
   const formatRunTime = (runTime: number) => {
     return `${runTime} min`;
@@ -72,15 +72,16 @@ export default function EditModal(props: EditModalProps) {
               </fieldset>
               <fieldset>
                 <label htmlFor="releaseDate">Release date</label>
-                <Input
-                  type="date"
-                  name="releaseDate"
-                  id="releaseDate"
-                  value={selectedMovie.release_date}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setMovie("release_date", e.target.value)
-                  }
-                />
+                <Space direction="vertical">
+                  <DatePicker
+                    name="releaseDate"
+                    id="releaseDate"
+                    value={moment(selectedMovie.release_date)}
+                    onChange={(e) =>
+                      setMovie("release_date", e?.toISOString() ?? "")
+                    }
+                  />
+                </Space>
               </fieldset>
             </div>
             <div className={styles.formRow}>
@@ -117,9 +118,8 @@ export default function EditModal(props: EditModalProps) {
                   size="large"
                   placeholder="genres"
                   defaultValue={selectedMovie.genres}
-                  options={GENRES
-                      .map((genre) => ({value: genre}))}
-              />
+                  options={GENRES.map((genre) => ({ value: genre }))}
+                />
               </fieldset>
               <fieldset>
                 <label htmlFor="runTime">Runtime</label>
