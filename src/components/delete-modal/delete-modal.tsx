@@ -1,16 +1,15 @@
 import axios from "axios";
-import { DeleteModalProps } from "./delete-modal-props";
 import styles from "./delete-modal.module.css";
 import { Modal } from "antd";
-import { useContext } from "react";
-import { StoreContext } from "../..";
+import { useStore } from "../../store/store";
+import { observer } from "mobx-react-lite";
 
-export default function DeleteModal(props: DeleteModalProps) {
-  const store = useContext(StoreContext);
+const DeleteModal = observer(() => {
+  const store = useStore();
   const onDelete = () => {
-    if (props.movieId) {
-      axios.delete(`/movies/${props.movieId}`).then(() => {
-        props.setIsOpen(false);
+    if (store.selectedMovieId) {
+      axios.delete(`/movies/${store.selectedMovieId}`).then(() => {
+        store.setIsDeleteModalOpen(false);
         store.updateMovies();
       });
     }
@@ -20,13 +19,15 @@ export default function DeleteModal(props: DeleteModalProps) {
     <Modal
       className="basicModal"
       title="Delete movie"
-      visible={props.isOpen}
+      visible={store.isDeleteModalOpen}
       onOk={onDelete}
-      onCancel={() => props.setIsOpen(false)}
+      onCancel={() => store.setIsDeleteModalOpen(false)}
     >
       <p className={styles.areYouSureText}>
         Are you sure to delete this movie?
       </p>
     </Modal>
   );
-}
+});
+
+export default DeleteModal;

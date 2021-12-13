@@ -1,14 +1,18 @@
-import { GENRES } from "../../App";
 import styles from "./filter.module.css";
-import { FilterProps } from "./filter-props";
+import { useStore } from "../../store/store";
 
-export default function Filter(props: FilterProps) {
+export default function Filter() {
+  const store = useStore();
   return (
     <div className={styles.filter}>
-      {GENRES.map((genre: string) => (
+      {store.genres.map((genre: string) => (
         <span
-          onClick={() => props.setActiveFilter(genre)}
-          className={props.activeFilter === genre ? styles.active : ""}
+          onClick={() => store.updateFilter(genre)}
+          className={
+            store.filter === genre || (!store.filter && genre === "All")
+              ? styles.active
+              : ""
+          }
           key={genre}
         >
           {genre}

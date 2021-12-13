@@ -1,14 +1,13 @@
 import axios from "axios";
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import { GENRES } from "../../App";
+import React, { useCallback, useEffect, useState } from "react";
 import { Movie } from "../../interfaces/request/movie";
 import styles from "./add-modal.module.css";
-import { AddModalProps } from "./add-modal-props";
 import { Input, Modal, Select, DatePicker, Space } from "antd";
 import moment from "moment";
-import { StoreContext } from "../..";
+import { useStore } from "../../store/store";
+import { observer } from "mobx-react-lite";
 
-export default function AddModal(props: AddModalProps) {
+const AddModal = observer(() => {
   const { TextArea } = Input;
   const movie = {
     genres: [],
@@ -18,7 +17,7 @@ export default function AddModal(props: AddModalProps) {
     revenue: 445435700,
   };
 
-  const store = useContext(StoreContext);
+  const store = useStore();
 
   const [newMovie, setNewMovie] = useState<Movie>(movie);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
@@ -105,17 +104,16 @@ export default function AddModal(props: AddModalProps) {
   };
 
   const closeModal = () => {
-    props.setIsOpen(false);
+    store.setIsAddModalOpen(false);
   };
 
   useEffect(() => {
     areInputsFilled();
   }, [newMovie, setNewMovie, areInputsFilled]);
-
   return (
     <Modal
       title="Add movie"
-      visible={props.isOpen}
+      visible={store.isAddModalOpen}
       className="basicModal"
       width="70%"
       onCancel={closeModal}
@@ -192,7 +190,7 @@ export default function AddModal(props: AddModalProps) {
                 size="large"
                 placeholder="genres"
                 defaultValue={[]}
-                options={GENRES.map((genre) => ({ value: genre }))}
+                options={store.genres.map((genre) => ({ value: genre }))}
               />
             </fieldset>
             <fieldset>
@@ -225,4 +223,6 @@ export default function AddModal(props: AddModalProps) {
       )}
     </Modal>
   );
-}
+});
+
+export default AddModal;

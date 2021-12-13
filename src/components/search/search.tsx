@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Button } from "antd";
 import styles from "./search.module.css";
-import { SearchProps } from "./search-props";
+import { useStore } from "../../store/store";
 
-export default function Search(props: SearchProps) {
+export default function Search() {
   const [searchStr, setSearchStr] = useState("");
+  const store = useStore();
 
   const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchStr(e.target.value);
@@ -12,7 +13,7 @@ export default function Search(props: SearchProps) {
 
   const onSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    props.setSearch(searchStr);
+    store.updateSearch(searchStr);
   };
 
   return (

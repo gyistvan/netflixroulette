@@ -1,11 +1,7 @@
-import { useCallback, useContext, useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 import Filter from "../../components/filter/filter";
 import Sort from "../../components/sort/sort";
-import {
-  Movie,
-  MoviesResponse,
-} from "../../interfaces/response/movies-response";
+import { Movie } from "../../interfaces/response/movies-response";
 import styles from "./home.module.css";
 import Header from "../../components/header/header";
 import MovieCard from "../../components/movie-card/movie-card";
@@ -13,38 +9,21 @@ import EditModal from "../../components/edit-modal/edit-modal";
 import AddModal from "../../components/add-modal/add-modal";
 import DeleteModal from "../../components/delete-modal/delete-modal";
 import { Pagination } from "antd";
-import { StoreContext } from "../..";
-import { useObserver } from "mobx-react-lite";
+import { observer } from "mobx-react";
+import { useStore } from "../../store/store";
 
-export default function Home() {
-  const [activeFilter, setActiveFilter] = useState("All");
-  const [activeSort, setActiveSort] = useState({
-    title: "Release date",
-    order: "asc",
-    query: "release_date",
-  });
-  const [search, setSearch] = useState<string | undefined>();
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [selectedMovieId, setSelectedMovieId] = useState<number | undefined>();
-
-  const store = useContext(StoreContext);
+const Home = observer(() => {
+  const store = useStore();
 
   useEffect(() => {
     store.updateMovies();
-  }, []);
-
-  return useObserver(() => (
+  }, [store]);
+  return (
     <>
-      <Header
-        search={search}
-        setSearch={setSearch}
-        setIsAddModalOpen={setIsAddModalOpen}
-      />
+      <Header />
       <div className={styles.filterAndSort}>
-        <Filter setActiveFilter={setActiveFilter} activeFilter={activeFilter} />
-        <Sort activeSort={activeSort} setActiveSort={setActiveSort} />
+        <Filter />
+        <Sort />
       </div>
       {store.total && (
         <div className={styles.pageAndTotal}>
@@ -57,7 +36,7 @@ export default function Home() {
             total={store.total}
             defaultCurrent={0}
             onShowSizeChange={store.updateLimit}
-            current={store.urlParams.offset}
+            current={store.offset}
             onChange={store.updateOffset}
           />
         </div>
@@ -71,23 +50,14 @@ export default function Home() {
             genres={movie.genres}
             release_date={movie.release_date}
             movieId={movie.id}
-            setIsEditModalOpen={setIsEditModalOpen}
-            setIsDeleteModalOpen={setIsDeleteModalOpen}
-            setSelectedMovie={setSelectedMovieId}
           />
         ))}
       </div>
-      <EditModal
-        movieId={selectedMovieId}
-        isEditModalOpen={isEditModalOpen}
-        setIsEditModalOpen={setIsEditModalOpen}
-      />
-      <AddModal isOpen={isAddModalOpen} setIsOpen={setIsAddModalOpen} />
-      <DeleteModal
-        isOpen={isDeleteModalOpen}
-        setIsOpen={setIsDeleteModalOpen}
-        movieId={selectedMovieId}
-      />
+      <EditModal />
+      <AddModal />
+      <DeleteModal />
     </>
-  ));
-}
+  );
+});
+
+export default Home;

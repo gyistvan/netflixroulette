@@ -1,15 +1,14 @@
 import { Input, Modal, Select, DatePicker, Space } from "antd";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
-import { GENRES } from "../../App";
+import React, { useEffect, useState } from "react";
 import { Movie } from "../../interfaces/response/movies-response";
 import styles from "./edit-modal.module.css";
-import { EditModalProps } from "./edit-modal-props";
 import moment from "moment";
-import { StoreContext } from "../..";
+import { useStore } from "../../store/store";
+import { observer } from "mobx-react-lite";
 
-export default function EditModal(props: EditModalProps) {
-  const store = useContext(StoreContext);
+const EditModal = observer(() => {
+  const store = useStore();
   const [selectedMovie, setSelectedMovie] = useState<Movie | undefined>();
 
   const formatRunTime = (runTime: number) => {
@@ -31,17 +30,17 @@ export default function EditModal(props: EditModalProps) {
   };
 
   useEffect(() => {
-    if (props.movieId) {
-      axios.get(`/movies/${props.movieId}`).then((res) => {
+    if (store.selectedMovieId) {
+      axios.get(`/movies/${store.selectedMovieId}`).then((res) => {
         const data: Movie = res.data;
         setSelectedMovie(data);
       });
     }
-  }, [props.movieId]);
+  }, [store.selectedMovieId]);
 
   const editMovie = () => {
     axios.put("/movies", { ...selectedMovie }).then(() => {
-      props.setIsEditModalOpen(false);
+      store.setIsEditModalOpen(false);
       store.updateMovies();
     });
   };
@@ -51,8 +50,8 @@ export default function EditModal(props: EditModalProps) {
       className="basicModal"
       width="70%"
       title="Edit movie"
-      visible={props.isEditModalOpen}
-      onCancel={() => props.setIsEditModalOpen(false)}
+      visible={store.isEditModalOpen}
+      onCancel={() => store.setIsEditModalOpen(false)}
       onOk={editMovie}
       okText={"Save movie"}
       cancelButtonProps={{ type: "ghost" }}
@@ -120,7 +119,9 @@ export default function EditModal(props: EditModalProps) {
                   size="large"
                   placeholder="genres"
                   defaultValue={selectedMovie.genres}
-                  options={GENRES.map((genre) => ({ value: genre }))}
+                  options={store.genres.map((genre: string) => ({
+                    value: genre,
+                  }))}
                 />
               </fieldset>
               <fieldset>
@@ -141,4 +142,6 @@ export default function EditModal(props: EditModalProps) {
       </>
     </Modal>
   );
-}
+});
+
+export default EditModal;
