@@ -1,34 +1,24 @@
-import Button from "../button/button";
+import { Button } from "antd";
 import Logo from "../logo/logo";
 import Search from "../search/search";
 import styles from "./header.module.css";
-import { HeaderProps } from "./headerProps";
+import { useStore } from "../../store/store";
 
-export default function Header(props: HeaderProps) {
+export default function Header() {
+  const store = useStore();
   return (
     <header className={styles.header}>
       <div>
         <Logo />
         <div className={styles.addBtnWrapper}>
-          <Button
-            onClick={() => props.setIsAddModalOpen(true)}
-            styles={{
-              background: "#60606068",
-              border: "none",
-              color: "#F65261",
-              fontFamily: "Montserrat",
-              fontWeight: 300,
-              fontSize: "20px",
-              padding: "11px 18px",
-            }}
-          >
-            <>+ ADD MOVIE</>
+          <Button type="ghost" onClick={() => store.setIsAddModalOpen(true)}>
+            + ADD MOVIE
           </Button>
         </div>
       </div>
       <div>
         <h1>FIND YOUR MOVIE</h1>
-        <Search search={props.search} setSearch={props.setSearch} />
+        <Search />
       </div>
     </header>
   );
